@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "baseName": {
+        "value": "bookappdev001"
+      },
+      "location": {
+        "value": "centralus"
+      },
+      "postgresAdminUsername": {
+        "value": "bookadmin"
+      },
+      "postgresAdminPassword": {
+        "value": "Bookapp@1234"
+      },
+      "aksAgentCount": {
+        "value": 2 
+      },
+      "aksAgentVMSize": {
+        "value": "Standard_D4s_v3"
+      },
+      "kubernetesVersion": {
+        "value": "1.31.7" 
+      },
+      "environment": {
+        "value": "dev"
+      },
+      "logAnalyticsWorkspaceName": {
+        "value": "bookappdev001law"
+      }
+    }
+  }
