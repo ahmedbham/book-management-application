@@ -1,0 +1,48 @@
+# docker-compose.yml (Place in project root or .devcontainer/)
+version: '3.3'
+
+services:
+  # PostgreSQL Service (from previous setup)
+  postgres:
+    image: postgres:17
+    container_name: bookapp-postgres-dev
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword # Use a secure password, consider secrets/env files
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # Development Container Service
+  app:
+    # Use a pre-built Node.js dev container image
+    image: mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye # Or choose Node 18, etc.
+    container_name: bookapp-dev-container
+
+    # Keep the container running
+    command: sleep infinity
+
+    # Mount your entire project directory into the container
+    volumes:
+      # Mount the root folder that contains your projects
+      - ..:/workspaces:cached
+
+    # Optional: Expose ports used by your apps IF NOT using forwardPorts in devcontainer.json
+    # ports:
+    #   - "3000:3000" # Next.js frontend
+    #   - "5001:5001" # Node.js backend
+
+    # Optional: Link environment variables from a .env file at the root
+    env_file:
+      - ../services/.env # Assumes .env is in the parent directory relative to docker-compose.yml
+
+    # Depends on Postgres being ready (basic check)
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+    driver: local
