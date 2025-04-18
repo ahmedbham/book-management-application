@@ -20,7 +20,7 @@
             "installGradle": "false"
         },
         // Install PostgreSQL client (psql)
-        "ghcr.io/devcontainers/features/postgres:1": {
+        "ghcr.io/itsmechlark/features/postgresql:1": {
             "version": "latest"
         },
         // Install Azure CLI

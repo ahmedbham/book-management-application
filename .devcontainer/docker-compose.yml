@@ -36,8 +36,8 @@ services:
     #   - "5001:5001" # Node.js backend
 
     # Optional: Link environment variables from a .env file at the root
-    env_file:
-      - ../services/.env # Assumes .env is in the parent directory relative to docker-compose.yml
+    # env_file:
+    #   - ../services/.env # Assumes .env is in the parent directory relative to docker-compose.yml
 
     # Depends on Postgres being ready (basic check)
     depends_on:
