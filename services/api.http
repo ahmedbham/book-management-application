@@ -1,0 +1,45 @@
+@hostname = localhost
+@port = 5002
+@baseUrl = http://{{hostname}}:{{port}}/api
+@token = Bearer akhdj8736d8f7sdf8sd7f8sdf7
+# Note: Authentication logic is currently bypassed in the middleware,
+# but the Authorization header might still be expected by the route setup.
+# Admin-only endpoints might not work as expected without a valid admin token/role check.
+
+### Get all books
+GET {{baseUrl}}/books
+Authorization: {{token}}
+
+### Get a specific book by ID (replace 1 with an actual ID)
+GET {{baseUrl}}/books/1
+Authorization: {{token}}
+
+### Create a new book (Requires admin role - might not work as expected with bypassed auth)
+POST {{baseUrl}}/books
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "title": "The Hitchhiker's Guide to the Galaxy",
+  "author": "Douglas Adams",
+  "isbn": "9780345391803",
+  "publication_year": 1979,
+  "genre": "Science Fiction",
+  "quantity": 10
+}
+
+### Update a book by ID (Requires admin role - might not work as expected with bypassed auth, replace 1 with an actual ID)
+PUT {{baseUrl}}/books/1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "title": "The Hitchhiker's Guide to the Galaxy (Updated Edition)",
+  "publication_year": 1980,
+  "genre": "Sci-Fi Comedy",
+  "quantity": 15
+}
+
+### Delete a book by ID (Requires admin role - might not work as expected with bypassed auth, replace 1 with an actual ID)
+DELETE {{baseUrl}}/books/1
+Authorization: {{token}}

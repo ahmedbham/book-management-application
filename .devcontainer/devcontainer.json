@@ -1,104 +1,116 @@
 {
-    "name": "Book App Dev Environment",
+  "name": "Book App Dev Environment",
 
-    // Point to the docker-compose.yml file relative to this json file
-    "dockerComposeFile": ["./docker-compose.yml"], // Or ["docker-compose.yml"] if in same folder
+  // Point to the docker-compose.yml file relative to this json file
+  "dockerComposeFile": ["./docker-compose.yml"], // Or ["docker-compose.yml"] if in same folder
 
-    // The service defined in docker-compose.yml to use for the dev container
-    "service": "app",
+  // The service defined in docker-compose.yml to use for the dev container
+  "service": "app",
 
-    // The path in the container where your project folder will be mounted.
-    "workspaceFolder": "/workspaces",
+  // The path in the container where your project folder will be mounted.
+  "workspaceFolder": "/workspaces",
 
-    // --- Features ---
-    // Add common tools using Dev Container Features
-    "features": {
-        // Install Java (needed for Liquibase CLI)
-        "ghcr.io/devcontainers/features/java:1": {
-            "version": "17", // Specify Java version (e.g., 11, 17)
-            "installMaven": "false",
-            "installGradle": "false"
-        },
-        // Install PostgreSQL client (psql)
-        "ghcr.io/itsmechlark/features/postgresql:1": {
-            "version": "latest"
-        },
-        // Install Azure CLI
-        "ghcr.io/devcontainers/features/azure-cli:1": {
-             "version": "latest"
-        },
-        // Use host's Docker daemon from within container
-        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
-             "version": "latest"
-        }
-        // Alternatively, use Docker-in-Docker (less common unless needed):
-        // "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  // --- Features ---
+  // Add common tools using Dev Container Features
+  "features": {
+    // Install Java (needed for Liquibase CLI)
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17", // Specify Java version (e.g., 11, 17)
+      "installMaven": "false",
+      "installGradle": "false"
     },
-
-    // --- VS Code Customizations ---
-    "customizations": {
-        "vscode": {
-            // Add IDs of extensions you want installed when the container is created.
-            "extensions": [
-                "ms-vscode.vscode-node-azure-pack", // Azure extensions for Node.js
-                "dbaeumer.vscode-eslint",           // ESLint
-                "esbenp.prettier-vscode",           // Prettier code formatter
-                "prisma.prisma",                    // Prisma syntax highlighting & tools
-                "ms-azuretools.vscode-docker",      // Docker integration
-                "ms-vscode-remote.remote-containers",// Required for Dev Containers
-                "ms-azuretools.vscode-bicep",       // Bicep language support
-                "redhat.java",                      // Java language support (helps Liquibase)
-                "mtxr.sqltools",                    // SQL client
-                "mtxr.sqltools-driver-pg",          // PostgreSQL driver for SQLTools
-                "bradlc.vscode-tailwindcss",        // Tailwind CSS IntelliSense
-                "mhutchie.git-graph"                // Git history graph
-            ],
-            // VS Code settings to apply inside the container
-            "settings": {
-                "terminal.integrated.shell.linux": "/bin/bash", // Or /bin/zsh if preferred
-                "editor.formatOnSave": true,
-                "[typescript]": {
-                    "editor.defaultFormatter": "esbenp.prettier-vscode"
-                },
-                "[typescriptreact]": {
-                    "editor.defaultFormatter": "esbenp.prettier-vscode"
-                },
-                "[json]": {
-                     "editor.defaultFormatter": "esbenp.prettier-vscode"
-                },
-                // SQLTools connection example (can be configured via UI too)
-                "sqltools.connections": [
-                  {
-                    "previewLimit": 50,
-                    "driver": "PostgreSQL",
-                    "name": "Docker Postgres (Dev Container)",
-                    "server": "postgres", // Service name from docker-compose acts as hostname
-                    "port": 5432,
-                    "database": "mydatabase",
-                    "username": "myuser",
-                    // For password, prefer prompt or other secure methods
-                  }
-                ],
-                "java.jdt.ls.java.home": "/usr/lib/jvm/msopenjdk-17-amd64" // Adjust if Java version/path differs
-            }
-        }
+    // Install PostgreSQL client (psql)
+    "ghcr.io/itsmechlark/features/postgresql:1": {
+      "version": "latest"
     },
+    // Install Azure CLI
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "version": "latest"
+    },
+    // Use host's Docker daemon from within container
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "latest"
+    }
+    // Alternatively, use Docker-in-Docker (less common unless needed):
+    // "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
 
-    // --- Lifecycle Commands ---
-    // Commands to run after the container is created.
-    "postCreateCommand": "bash .devcontainer/post-create.sh", // Run a setup script
+  // --- VS Code Customizations ---
+  "customizations": {
+    "vscode": {
+      // Add IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "ms-vscode.vscode-node-azure-pack", // Azure extensions for Node.js
+        "dbaeumer.vscode-eslint", // ESLint
+        "esbenp.prettier-vscode", // Prettier code formatter
+        "prisma.prisma", // Prisma syntax highlighting & tools
+        "ms-azuretools.vscode-docker", // Docker integration
+        "ms-vscode-remote.remote-containers", // Required for Dev Containers
+        "ms-azuretools.vscode-bicep", // Bicep language support
+        "redhat.java", // Java language support (helps Liquibase)
+        "mtxr.sqltools", // SQL client
+        "mtxr.sqltools-driver-pg", // PostgreSQL driver for SQLTools
+        "bradlc.vscode-tailwindcss", // Tailwind CSS IntelliSense
+        "mhutchie.git-graph", // Git history graph
+        "humao.rest-client" // REST Client
+      ],
+      // VS Code settings to apply inside the container
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash", // Or /bin/zsh if preferred
+        "editor.formatOnSave": true,
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        // SQLTools connection example (can be configured via UI too)
+        "sqltools.connections": [
+          {
+            "previewLimit": 50,
+            "driver": "PostgreSQL",
+            "name": "Docker Postgres (Dev Container)",
+            "server": "postgres", // Service name from docker-compose acts as hostname
+            "port": 5432,
+            "database": "mydatabase",
+            "username": "myuser"
+            // For password, prefer prompt or other secure methods
+          }
+        ],
+        "java.jdt.ls.java.home": "/usr/local/sdkman/candidates/java/current", // Point to SDKMAN current Java
+        "files.exclude": {
+          "**/.git": true,
+          "**/.svn": true,
+          "**/.hg": true,
+          "**/CVS": true,
+          "**/.DS_Store": true,
+          "**/Thumbs.db": true,
+          "**/.codespaces": true,
+          "**/.persistedshare": true,
+          "**/shared": true
+        }
+      }
+    }
+  },
 
-    // --- Port Forwarding ---
-    // Ports to forward from the container to the host machine.
-    "forwardPorts": [
-        3000, // Next.js frontend default port
-        5001, // Backend service default port
-        5432  // Forward Postgres port if needed (already mapped by compose)
-    ],
+  // --- Lifecycle Commands ---
+  // Commands to run after the container is created.
+  "postCreateCommand": "bash .devcontainer/post-create.sh", // Run a setup script
 
-    // --- User ---
-    // Run commands as non-root user 'node' created by the base image.
-    "remoteUser": "node"
-    // Use 'root' if you need to install global packages or modify system files initially,
-    // but switch back to 'node' for security.
+  // --- Port Forwarding ---
+  // Ports to forward from the container to the host machine.
+  // "forwardPorts": [
+  //     3000, // Next.js frontend default port
+  //     5001, // Backend service default port
+  //     5432  // Forward Postgres port if needed (already mapped by compose)
+  // ],
+
+  // --- User ---
+  // Run commands as non-root user 'node' created by the base image.
+  "remoteUser": "node"
+  // Use 'root' if you need to install global packages or modify system files initially,
+  // but switch back to 'node' for security.
 }

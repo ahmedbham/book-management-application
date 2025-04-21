@@ -22,11 +22,36 @@ else
     echo "Liquibase is already installed."
 fi
 
-# Add Homebrew's bin directory (which includes liquibase) to .bashrc to persist in new terminal sessions
-BREW_BIN="/home/linuxbrew/.linuxbrew/bin"
-if ! grep -q "$BREW_BIN" ~/.bashrc; then
-    echo "Adding Homebrew bin directory to PATH in .bashrc..."
-    echo "export PATH=\"$BREW_BIN:\$PATH\"" >> ~/.bashrc
+# Define and export LIQUIBASE_HOME
+export LIQUIBASE_HOME="/home/linuxbrew/.linuxbrew/opt/liquibase/libexec"
+echo "Setting LIQUIBASE_HOME=$LIQUIBASE_HOME"
+
+# Add Homebrew environment setup and LIQUIBASE_HOME to profile/bashrc for persistence
+PROFILE_FILE="$HOME/.profile"
+BASHRC_FILE="$HOME/.bashrc"
+BREW_SHELLENV_CMD='eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+LIQUIBASE_HOME_EXPORT='export LIQUIBASE_HOME="/home/linuxbrew/.linuxbrew/opt/liquibase/libexec"'
+
+# Update .profile
+if ! grep -qF -- "$BREW_SHELLENV_CMD" "$PROFILE_FILE"; then
+    echo "Adding Homebrew shellenv to $PROFILE_FILE..."
+    echo "$BREW_SHELLENV_CMD" >> "$PROFILE_FILE"
+fi
+if ! grep -qF -- "$LIQUIBASE_HOME_EXPORT" "$PROFILE_FILE"; then
+    echo "Adding LIQUIBASE_HOME export to $PROFILE_FILE..."
+    echo "$LIQUIBASE_HOME_EXPORT" >> "$PROFILE_FILE"
+fi
+
+# Update .bashrc
+if [ -f "$BASHRC_FILE" ]; then
+    if ! grep -qF -- "$BREW_SHELLENV_CMD" "$BASHRC_FILE"; then
+        echo "Adding Homebrew shellenv to $BASHRC_FILE..."
+        echo "$BREW_SHELLENV_CMD" >> "$BASHRC_FILE"
+    fi
+    if ! grep -qF -- "$LIQUIBASE_HOME_EXPORT" "$BASHRC_FILE"; then
+        echo "Adding LIQUIBASE_HOME export to $BASHRC_FILE..."
+        echo "$LIQUIBASE_HOME_EXPORT" >> "$BASHRC_FILE"
+    fi
 fi
 
 # ...existing code...
