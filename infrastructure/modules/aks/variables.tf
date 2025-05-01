@@ -1,0 +1,10 @@
+variable "cluster_name" { type = string }
+variable "resource_group_name" { type = string }
+variable "location" { type = string }
+variable "dns_prefix" { type = string }
+variable "kubernetes_version" { type = string }
+variable "agent_count" { type = number }
+variable "agent_vm_size" { type = string }
+variable "acr_id" { type = string }
+variable "tags" { type = map(string) }
+variable "log_analytics_workspace_id" { type = string }

@@ -36,38 +36,35 @@ const getKey: GetPublicKeyOrSecret = (header, callback) => {
 };
 
 export const authenticateToken: RequestHandler = (req, res, next) => {
-  // const authHeader = req.headers["authorization"];
-  // const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
 
-  // if (token == null) {
-  //   res.status(401).json({ message: "Unauthorized: No token provided" });
-  //   return; // Ensure the function returns void
-  // }
+  if (token == null) {
+    res.status(401).json({ message: "Unauthorized: No token provided" });
+    return; // Ensure the function returns void
+  }
 
-  // jwt.verify(
-  //   token,
-  //   getKey,
-  //   {
-  //     audience: config.auth.clientId, // Validate audience
-  //     issuer: config.auth.issuer, // Validate issuer
-  //     algorithms: ["RS256"], // Specify expected algorithms
-  //   },
-  //   (err, decoded) => {
-  //     if (err) {
-  //       console.error("JWT Verification Error:", err.message);
-  //       if (err.name === "TokenExpiredError") {
-  //         res.status(401).json({ message: "Unauthorized: Token expired" });
-  //         return; // Ensure the function returns void
-  //       }
-  //       res.status(403).json({ message: "Forbidden: Invalid token" });
-  //       return; // Ensure the function returns void
-  //     }
+  jwt.verify(
+    token,
+    getKey,
+    {
+      audience: config.auth.clientId, // Validate audience
+      issuer: config.auth.issuer, // Validate issuer
+      algorithms: ["RS256"], // Specify expected algorithms
+    },
+    (err, decoded) => {
+      if (err) {
+        console.error("JWT Verification Error:", err.message);
+        if (err.name === "TokenExpiredError") {
+          res.status(401).json({ message: "Unauthorized: Token expired" });
+          return; // Ensure the function returns void
+        }
+        res.status(403).json({ message: "Forbidden: Invalid token" });
+        return; // Ensure the function returns void
+      }
 
-  //     req.user = decoded;
-  //     next();
-  //   }
-  // );
-
-  // Bypass authentication for now
-  next();
+      req.user = decoded;
+      next();
+    }
+  );
 };
